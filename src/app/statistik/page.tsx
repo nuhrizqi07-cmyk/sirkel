@@ -1,7 +1,29 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function StatistikPage() {
+  if (!supabase) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="border-b border-gray-100">
+          <div className="max-w-4xl mx-auto px-4 py-3">
+            <Link href="/" className="text-lg font-bold text-emerald-700">
+              SIRKEL
+            </Link>
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
+            Statistik belum tersedia karena environment Supabase belum dikonfigurasi.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Total counts
   const { count: totalMitra } = await supabase.from('mitra').select('*', { count: 'exact', head: true });
   const { count: totalProduk } = await supabase.from('produk').select('*', { count: 'exact', head: true });

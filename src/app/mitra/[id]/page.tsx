@@ -8,8 +8,30 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function MitraDetail({ params }: Props) {
   const { id } = await params;
+
+  if (!supabase) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="border-b border-gray-100">
+          <div className="max-w-3xl mx-auto px-4 py-3">
+            <a href="/cari" className="text-sm text-gray-400 hover:text-emerald-600 transition-colors">
+              Kembali ke pencarian
+            </a>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 py-8">
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
+            Detail mitra belum bisa dimuat karena environment Supabase belum diisi.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const { data: mitra } = await supabase
     .from('mitra')

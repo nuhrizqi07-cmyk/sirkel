@@ -4,6 +4,19 @@ import CardMitra from './ui/CardMitra';
 import type { Mitra } from '@/lib/types';
 
 export default async function MitraTerbaru() {
+  if (!supabase) {
+    return (
+      <section className="py-10 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Produsen Terbaru</h2>
+          <div className="bg-gray-50 rounded-2xl p-10 text-center">
+            <p className="text-gray-400">Data belum tersedia karena koneksi Supabase belum dikonfigurasi.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const { data } = await supabase
     .from('mitra')
     .select('*')

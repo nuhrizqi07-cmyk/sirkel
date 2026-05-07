@@ -10,6 +10,8 @@ interface Props {
 
 const LIMIT = 12;
 
+export const dynamic = 'force-dynamic';
+
 export default async function SearchPage({ searchParams }: Props) {
   const sp = await searchParams;
   const q = sp.q || '';
@@ -17,6 +19,33 @@ export default async function SearchPage({ searchParams }: Props) {
   const provinsi = sp.provinsi || '';
   const tipe = sp.tipe || '';
   const page = parseInt(sp.page || '1', 10);
+
+  if (!supabase) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="bg-white border-b border-gray-100 sticky top-0 z-10">
+          <div className="max-w-5xl mx-auto px-4 py-3">
+            <div className="flex items-center gap-3 mb-3">
+              <a href="/" className="text-lg font-bold text-emerald-700 shrink-0">
+                SIRKEL
+              </a>
+              <div className="flex-1">
+                <SearchBar />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
+            Pencarian belum bisa dipakai karena environment Supabase belum diisi.
+            Tambahkan `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+            di environment deployment.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Build query
   let query = supabase.from('mitra').select('*', { count: 'exact' });

@@ -1,10 +1,16 @@
-import { supabase } from '@/lib/supabase';
+import { hasSupabaseEnv, supabase } from '@/lib/supabase';
 import HeroSection from '@/components/HeroSection';
 import KategoriGrid from '@/components/KategoriGrid';
 import MitraList from '@/components/MitraList';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 async function getStats() {
+  if (!supabase) {
+    return { totalMitra: 0, totalProduk: 0 };
+  }
+
   const { count: totalMitra } = await supabase
     .from('mitra')
     .select('*', { count: 'exact', head: true });
@@ -22,6 +28,15 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+
+      {!hasSupabaseEnv && (
+        <section className="px-4 pt-6">
+          <div className="max-w-5xl mx-auto rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Supabase belum dikonfigurasi. Tambahkan `NEXT_PUBLIC_SUPABASE_URL` dan
+            `NEXT_PUBLIC_SUPABASE_ANON_KEY` di environment deployment.
+          </div>
+        </section>
+      )}
       
       {/* Stats bar */}
       <section className="py-6 px-4 -mt-4">
