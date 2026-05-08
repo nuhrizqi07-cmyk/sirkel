@@ -3,7 +3,7 @@ import './globals.css';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'SIRKEL — Direktori UMKM Indonesia',
+  title: 'SIRKEL - Direktori UMKM Indonesia',
   description: 'Temukan produsen, distributor, dan reseller UMKM di seluruh Indonesia. Lengkap dengan kontak langsung WhatsApp.',
 };
 

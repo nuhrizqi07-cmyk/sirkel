@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,14 +8,14 @@ export default async function StatistikPage() {
     return (
       <div className="min-h-screen bg-white">
         <div className="border-b border-gray-100">
-          <div className="max-w-4xl mx-auto px-4 py-3">
+          <div className="mx-auto max-w-4xl px-4 py-3">
             <Link href="/" className="text-lg font-bold text-emerald-700">
               SIRKEL
             </Link>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="mx-auto max-w-4xl px-4 py-8">
           <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
             Statistik belum tersedia karena environment Supabase belum dikonfigurasi.
           </div>
@@ -24,108 +24,102 @@ export default async function StatistikPage() {
     );
   }
 
-  // Total counts
   const { count: totalMitra } = await supabase.from('mitra').select('*', { count: 'exact', head: true });
   const { count: totalProduk } = await supabase.from('produk').select('*', { count: 'exact', head: true });
 
-  // Per provinsi
   const { data: perProvinsi } = await supabase
     .from('mitra')
     .select('provinsi')
     .not('provinsi', 'is', null);
 
   const provCounts: Record<string, number> = {};
-  (perProvinsi || []).forEach(m => {
+  (perProvinsi || []).forEach((m) => {
     if (m.provinsi) provCounts[m.provinsi] = (provCounts[m.provinsi] || 0) + 1;
   });
   const topProvinsi = Object.entries(provCounts)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 10);
 
-  // Per tipe
   const { data: perTipe } = await supabase
     .from('mitra')
     .select('tipe');
 
   const tipeCounts: Record<string, number> = {};
-  (perTipe || []).forEach(m => {
+  (perTipe || []).forEach((m) => {
     tipeCounts[m.tipe] = (tipeCounts[m.tipe] || 0) + 1;
   });
 
+  const maxTipeCount = Math.max(...Object.values(tipeCounts), 1);
+  const maxProvCount = topProvinsi[0]?.[1] || 1;
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <div className="border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 py-3">
+        <div className="mx-auto max-w-4xl px-4 py-3">
           <Link href="/" className="text-lg font-bold text-emerald-700">
-            🟢 SIRKEL
+            SIRKEL
           </Link>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">📊 Statistik UMKM</h1>
-        <p className="text-sm text-gray-400 mb-8">Data dikumpulkan dari berbagai sumber terbuka</p>
+      <div className="mx-auto max-w-4xl px-4 py-8">
+        <h1 className="mb-2 text-2xl font-bold text-gray-900">Statistik UMKM</h1>
+        <p className="mb-8 text-sm text-gray-400">Data dikumpulkan dari berbagai sumber terbuka.</p>
 
-        {/* Total cards */}
-        <div className="grid grid-cols-2 gap-4 mb-10">
-          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-6">
+        <div className="mb-10 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6">
             <p className="text-3xl font-bold text-emerald-700">{totalMitra || 0}</p>
-            <p className="text-sm text-emerald-600 mt-1">Total Produsen & Distributor</p>
+            <p className="mt-1 text-sm text-emerald-600">Total Produsen & Distributor</p>
           </div>
-          <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-6">
+          <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 p-6">
             <p className="text-3xl font-bold text-amber-700">{totalProduk || 0}</p>
-            <p className="text-sm text-amber-600 mt-1">Total Produk Terdaftar</p>
+            <p className="mt-1 text-sm text-amber-600">Total Produk Terdaftar</p>
           </div>
         </div>
 
-        {/* Per Tipe */}
         {Object.keys(tipeCounts).length > 0 && (
           <div className="mb-10">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Berdasarkan Tipe</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900">Berdasarkan Tipe</h2>
             <div className="space-y-3">
               {Object.entries(tipeCounts).map(([tipe, count]) => (
-                <div key={tipe} className="flex items-center gap-4">
-                  <span className="w-28 text-sm font-medium text-gray-600 capitalize">{tipe}</span>
-                  <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                <div key={tipe} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+                  <span className="w-full text-sm font-medium capitalize text-gray-600 sm:w-28">{tipe}</span>
+                  <div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-100">
                     <div
-                      className="bg-emerald-500 h-full rounded-full transition-all"
-                      style={{ width: `${(count / Math.max(...Object.values(tipeCounts))) * 100}%` }}
+                      className="h-full rounded-full bg-emerald-500 transition-all"
+                      style={{ width: `${(count / maxTipeCount) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-semibold text-gray-700 w-12 text-right">{count}</span>
+                  <span className="w-full text-right text-sm font-semibold text-gray-700 sm:w-12">{count}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Per Provinsi */}
         {topProvinsi.length > 0 && (
           <div>
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Berdasarkan Provinsi (Top 10)</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900">Berdasarkan Provinsi (Top 10)</h2>
             <div className="space-y-3">
               {topProvinsi.map(([prov, count], i) => (
-                <div key={prov} className="flex items-center gap-4">
-                  <span className="w-8 text-sm text-gray-400 font-medium">#{i + 1}</span>
-                  <span className="w-40 text-sm font-medium text-gray-600 truncate">{prov}</span>
-                  <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                <div key={prov} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+                  <span className="w-full text-sm font-medium text-gray-400 sm:w-8">#{i + 1}</span>
+                  <span className="w-full truncate text-sm font-medium text-gray-600 sm:w-40">{prov}</span>
+                  <div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-100">
                     <div
-                      className="bg-emerald-500 h-full rounded-full transition-all"
-                      style={{ width: `${(count / topProvinsi[0][1]) * 100}%` }}
+                      className="h-full rounded-full bg-emerald-500 transition-all"
+                      style={{ width: `${(count / maxProvCount) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-semibold text-gray-700 w-12 text-right">{count}</span>
+                  <span className="w-full text-right text-sm font-semibold text-gray-700 sm:w-12">{count}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Empty state */}
         {totalMitra === 0 && (
-          <div className="text-center py-16">
-            <p className="text-4xl mb-3">📭</p>
+          <div className="py-16 text-center">
             <p className="text-gray-500">Belum ada data. Import data UMKM untuk melihat statistik.</p>
           </div>
         )}

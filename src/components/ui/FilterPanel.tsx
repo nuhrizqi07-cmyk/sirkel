@@ -28,21 +28,20 @@ export default function FilterPanel() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-gray-700">Filter</h3>
-        <button onClick={resetAll} className="text-xs text-emerald-600 hover:text-emerald-700">
+        <button onClick={resetAll} className="text-xs font-medium text-emerald-600 hover:text-emerald-700">
           Reset
         </button>
       </div>
 
-      {/* Kategori */}
       <div>
-        <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</label>
+        <label className="text-xs font-medium uppercase tracking-wider text-gray-500">Kategori</label>
         <select
           value={activeKategori}
           onChange={(e) => setFilter('kategori', e.target.value)}
-          className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Semua</option>
           {kategoriList.map((k) => (
@@ -51,13 +50,12 @@ export default function FilterPanel() {
         </select>
       </div>
 
-      {/* Provinsi */}
       <div>
-        <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Provinsi</label>
+        <label className="text-xs font-medium uppercase tracking-wider text-gray-500">Provinsi</label>
         <select
           value={activeProvinsi}
           onChange={(e) => setFilter('provinsi', e.target.value)}
-          className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Semua</option>
           {provinsiList.map((p) => (
@@ -66,18 +64,17 @@ export default function FilterPanel() {
         </select>
       </div>
 
-      {/* Tipe */}
       <div>
-        <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</label>
+        <label className="text-xs font-medium uppercase tracking-wider text-gray-500">Tipe</label>
         <select
           value={activeTipe}
           onChange={(e) => setFilter('tipe', e.target.value)}
-          className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Semua</option>
-          <option value="produsen">🏭 Produsen</option>
-          <option value="distributor">🏪 Distributor</option>
-          <option value="keduanya">🤝 Keduanya</option>
+          <option value="produsen">Produsen</option>
+          <option value="distributor">Distributor</option>
+          <option value="keduanya">Keduanya</option>
         </select>
       </div>
     </div>

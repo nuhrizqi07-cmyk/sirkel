@@ -17,14 +17,14 @@ export default async function MitraDetail({ params }: Props) {
     return (
       <div className="min-h-screen bg-white">
         <div className="border-b border-gray-100">
-          <div className="max-w-3xl mx-auto px-4 py-3">
-            <a href="/cari" className="text-sm text-gray-400 hover:text-emerald-600 transition-colors">
+          <div className="mx-auto max-w-3xl px-4 py-3">
+            <a href="/cari" className="text-sm text-gray-400 transition-colors hover:text-emerald-600">
               Kembali ke pencarian
             </a>
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto px-4 py-8">
+        <div className="mx-auto max-w-3xl px-4 py-8">
           <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
             Detail mitra belum bisa dimuat karena environment Supabase belum diisi.
           </div>
@@ -50,27 +50,25 @@ export default async function MitraDetail({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <div className="border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 py-3">
-          <a href="/cari" className="text-sm text-gray-400 hover:text-emerald-600 transition-colors">
-            ← Kembali ke pencarian
+        <div className="mx-auto max-w-3xl px-4 py-3">
+          <a href="/cari" className="text-sm text-gray-400 transition-colors hover:text-emerald-600">
+            Kembali ke pencarian
           </a>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Nama & Badge */}
-        <div className="flex items-start gap-3 mb-4">
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{m.nama_perusahaan}</h1>
-            <div className="flex items-center gap-2 mt-1.5">
-              <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${tipeBadgeColor(m.tipe)}`}>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${tipeBadgeColor(m.tipe)}`}>
                 {m.tipe}
               </span>
               {m.verified && (
-                <span className="text-xs text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                  ✅ Terverifikasi
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs text-emerald-600">
+                  Terverifikasi
                 </span>
               )}
               <span className="text-xs text-gray-400">{m.sumber_data}</span>
@@ -78,67 +76,64 @@ export default async function MitraDetail({ params }: Props) {
           </div>
         </div>
 
-        {/* Contact Buttons */}
         {m.no_telepon && (
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <ButtonWA phone={m.no_telepon} />
             <ButtonTel phone={m.no_telepon} />
           </div>
         )}
 
-        {/* Info Grid */}
-        <div className="grid sm:grid-cols-2 gap-4 mb-8">
+        <div className="mb-8 grid gap-4 sm:grid-cols-2">
           {m.contact_person && (
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Contact Person</p>
+            <div className="rounded-xl bg-gray-50 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wider text-gray-400">Contact Person</p>
               <p className="font-medium text-gray-800">{m.contact_person}</p>
             </div>
           )}
           {m.email && (
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Email</p>
-              <a href={`mailto:${m.email}`} className="font-medium text-emerald-600 hover:text-emerald-700">
+            <div className="rounded-xl bg-gray-50 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wider text-gray-400">Email</p>
+              <a href={`mailto:${m.email}`} className="break-all font-medium text-emerald-600 hover:text-emerald-700">
                 {m.email}
               </a>
             </div>
           )}
           {(m.kota || m.provinsi) && (
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Lokasi</p>
+            <div className="rounded-xl bg-gray-50 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wider text-gray-400">Lokasi</p>
               <p className="font-medium text-gray-800">
                 {[m.kota, m.provinsi].filter(Boolean).join(', ')}
               </p>
             </div>
           )}
           {m.alamat && (
-            <div className="bg-gray-50 rounded-xl p-4 sm:col-span-2">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Alamat Lengkap</p>
-              <p className="font-medium text-gray-800">📍 {m.alamat}</p>
+            <div className="rounded-xl bg-gray-50 p-4 sm:col-span-2">
+              <p className="mb-1 text-xs uppercase tracking-wider text-gray-400">Alamat Lengkap</p>
+              <p className="font-medium text-gray-800">{m.alamat}</p>
             </div>
           )}
           {m.deskripsi && (
-            <div className="bg-gray-50 rounded-xl p-4 sm:col-span-2">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Deskripsi</p>
-              <p className="text-sm text-gray-600 whitespace-pre-line">{m.deskripsi}</p>
+            <div className="rounded-xl bg-gray-50 p-4 sm:col-span-2">
+              <p className="mb-1 text-xs uppercase tracking-wider text-gray-400">Deskripsi</p>
+              <p className="whitespace-pre-line text-sm leading-6 text-gray-600">{m.deskripsi}</p>
             </div>
           )}
         </div>
 
-        {/* Products */}
         {m.produk && m.produk.length > 0 && (
           <div>
-            <h2 className="text-lg font-bold text-gray-900 mb-4">📦 Produk</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900">Produk</h2>
             <div className="space-y-3">
               {m.produk.map((p) => (
-                <div key={p.id} className="border border-gray-100 rounded-xl p-4">
+                <div key={p.id} className="rounded-xl border border-gray-100 p-4">
                   <h3 className="font-semibold text-gray-800">{p.nama}</h3>
                   {p.deskripsi && (
-                    <p className="text-sm text-gray-500 mt-1">{p.deskripsi}</p>
+                    <p className="mt-1 text-sm text-gray-500">{p.deskripsi}</p>
                   )}
-                  <div className="flex gap-3 mt-2 text-xs text-gray-400">
+                  <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400">
                     {p.satuan && <span>Satuan: {p.satuan}</span>}
                     {p.harga_min && <span>Mulai: Rp {p.harga_min.toLocaleString('id-ID')}</span>}
-                    {p.harga_max && <span>s/d Rp {p.harga_max.toLocaleString('id-ID')}</span>}
+                    {p.harga_max && <span>Sampai: Rp {p.harga_max.toLocaleString('id-ID')}</span>}
                   </div>
                 </div>
               ))}
@@ -146,10 +141,10 @@ export default async function MitraDetail({ params }: Props) {
           </div>
         )}
 
-        {/* Source */}
         {m.url_sumber && (
-          <p className="mt-8 text-xs text-gray-300">
-            Data dari: <a href={m.url_sumber} target="_blank" rel="noopener noreferrer" className="underline">
+          <p className="mt-8 break-all text-xs text-gray-300">
+            Data dari{' '}
+            <a href={m.url_sumber} target="_blank" rel="noopener noreferrer" className="underline">
               {m.url_sumber}
             </a>
           </p>

@@ -21,40 +21,47 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
 
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-3">
-      <div className={`flex ${large ? 'flex-col md:flex-row' : 'flex-col md:flex-row'} gap-2`}>
+      <div className={`flex flex-col gap-2 ${large ? 'lg:flex-row' : 'md:flex-row'}`}>
         <div className="relative flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">
+            Cari
+          </span>
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Cari produk, produsen, atau distributor..."
-            className={`w-full pl-10 pr-4 ${large ? 'py-4 text-lg' : 'py-2.5 text-sm'} border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white`}
+            className={`w-full rounded-xl border border-gray-200 bg-white pl-14 pr-4 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 ${large ? 'py-4 text-base md:text-lg' : 'py-3 text-sm'}`}
           />
         </div>
-        <select
-          value={kategori}
-          onChange={(e) => setKategori(e.target.value)}
-          className={`${large ? 'py-4' : 'py-2.5'} px-3 border border-gray-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500`}
-        >
-          <option value="">Semua Kategori</option>
-          {kategoriList.map((k) => (
-            <option key={k.id} value={k.slug}>{k.icon} {k.nama}</option>
-          ))}
-        </select>
-        <select
-          value={provinsi}
-          onChange={(e) => setProvinsi(e.target.value)}
-          className={`${large ? 'py-4' : 'py-2.5'} px-3 border border-gray-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500`}
-        >
-          <option value="">Semua Provinsi</option>
-          {provinsiList.map((p) => (
-            <option key={p} value={p}>{p}</option>
-          ))}
-        </select>
+
+        <div className={`grid grid-cols-1 gap-2 ${large ? 'sm:grid-cols-2 lg:flex' : 'sm:grid-cols-2 md:flex'}`}>
+          <select
+            value={kategori}
+            onChange={(e) => setKategori(e.target.value)}
+            className={`rounded-xl border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${large ? 'min-w-[12rem] py-4' : 'py-3 md:min-w-[10rem]'}`}
+          >
+            <option value="">Semua Kategori</option>
+            {kategoriList.map((k) => (
+              <option key={k.id} value={k.slug}>{k.icon} {k.nama}</option>
+            ))}
+          </select>
+
+          <select
+            value={provinsi}
+            onChange={(e) => setProvinsi(e.target.value)}
+            className={`rounded-xl border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 ${large ? 'min-w-[12rem] py-4' : 'py-3 md:min-w-[10rem]'}`}
+          >
+            <option value="">Semua Provinsi</option>
+            {provinsiList.map((p) => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
+
         <button
           type="submit"
-          className={`${large ? 'py-4 px-8 text-lg' : 'py-2.5 px-6'} bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors whitespace-nowrap`}
+          className={`w-full whitespace-nowrap rounded-xl bg-emerald-600 text-white font-semibold transition-colors hover:bg-emerald-700 sm:w-auto ${large ? 'px-8 py-4 text-base md:text-lg' : 'px-6 py-3'}`}
         >
           Cari
         </button>

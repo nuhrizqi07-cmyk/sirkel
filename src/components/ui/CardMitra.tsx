@@ -8,48 +8,50 @@ export default function CardMitra({ mitra }: { mitra: Mitra }) {
   return (
     <Link
       href={`/mitra/${mitra.id}`}
-      className="block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all p-5"
+      className="block rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-emerald-200 hover:shadow-md sm:p-5"
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 text-base truncate">
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-base font-semibold text-gray-900">
             {mitra.nama_perusahaan}
           </h3>
-          <span className={`inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full ${tipeBadgeColor(mitra.tipe)}`}>
+          <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium ${tipeBadgeColor(mitra.tipe)}`}>
             {mitra.tipe}
           </span>
         </div>
         {mitra.verified && (
-          <span className="text-emerald-500 text-sm shrink-0" title="Terverifikasi">✅</span>
+          <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600" title="Terverifikasi">
+            Verified
+          </span>
         )}
       </div>
 
       {mitra.alamat && (
-        <p className="mt-2 text-sm text-gray-500 truncate">
-          📍 {mitra.alamat}
+        <p className="mt-2 line-clamp-2 text-sm text-gray-500">
+          {mitra.alamat}
         </p>
       )}
 
       {mitra.deskripsi && (
-        <p className="mt-1.5 text-sm text-gray-400 line-clamp-2">
+        <p className="mt-1.5 line-clamp-2 text-sm text-gray-400">
           {truncate(mitra.deskripsi, 120)}
         </p>
       )}
 
-      <div className="mt-3 flex items-center gap-2 flex-wrap">
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
         {mitra.no_telepon && (
           <a
             href={waLink(mitra.no_telepon)}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-green-100 transition-colors"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 sm:w-auto"
           >
-            💬 WA
-            <span className="text-xs text-gray-500">{mitra.no_telepon}</span>
+            Chat WhatsApp
+            <span className="truncate text-xs text-gray-500">{mitra.no_telepon}</span>
           </a>
         )}
-        <span className="text-xs text-gray-400 ml-auto">
+        <span className="text-xs text-gray-400 sm:ml-auto">
           {mitra.sumber_data}
         </span>
       </div>
